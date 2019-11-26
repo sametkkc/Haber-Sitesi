@@ -1,0 +1,25 @@
+﻿@model DAL.HaberTbl
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-12 col-lg-7">
+    <div class="single-blog-post featured-post">
+        <h1 style="color:red">
+            @Model.title.ToUpper()
+        </h1>
+        <br />
+        <h2>
+            @Model.spot
+        </h2>
+        <p>
+            <img src="data:image/jpg;base64,@Convert.ToBase64String(Model.Image.Data)" />
+        </p>
+
+        <p>
+            @Model.content
+        </p>
+
+    </div>
+</div>
+
+

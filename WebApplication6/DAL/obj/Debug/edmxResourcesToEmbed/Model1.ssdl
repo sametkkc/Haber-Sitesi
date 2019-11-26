@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProjeHaberDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CatName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Editor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="ImageId" Type="int" />
+    <Property Name="Image" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="HaberTbl">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="text" />
+    <Property Name="spot" Type="text" />
+    <Property Name="content" Type="nvarchar(max)" />
+    <Property Name="EditorId" Type="int" />
+    <Property Name="ImageId" Type="int" />
+    <Property Name="ReadCount" Type="int" />
+    <Property Name="CatId" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="FileUrl" Type="nvarchar(max)" />
+    <Property Name="Data" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Editor_Image">
+    <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+    <End Role="Editor" Type="Self.Editor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Image">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Editor">
+        <PropertyRef Name="ImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HaberTbl_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="HaberTbl" Type="Self.HaberTbl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HaberTbl">
+        <PropertyRef Name="CatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HaberTbl_Editor">
+    <End Role="Editor" Type="Self.Editor" Multiplicity="0..1" />
+    <End Role="HaberTbl" Type="Self.HaberTbl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Editor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HaberTbl">
+        <PropertyRef Name="EditorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HaberTbl_Image">
+    <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+    <End Role="HaberTbl" Type="Self.HaberTbl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Image">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HaberTbl">
+        <PropertyRef Name="ImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ProjeHaberDbModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Editor" EntityType="Self.Editor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HaberTbl" EntityType="Self.HaberTbl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Editor_Image" Association="Self.FK_Editor_Image">
+      <End Role="Image" EntitySet="Image" />
+      <End Role="Editor" EntitySet="Editor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HaberTbl_Category" Association="Self.FK_HaberTbl_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="HaberTbl" EntitySet="HaberTbl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HaberTbl_Editor" Association="Self.FK_HaberTbl_Editor">
+      <End Role="Editor" EntitySet="Editor" />
+      <End Role="HaberTbl" EntitySet="HaberTbl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HaberTbl_Image" Association="Self.FK_HaberTbl_Image">
+      <End Role="Image" EntitySet="Image" />
+      <End Role="HaberTbl" EntitySet="HaberTbl" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

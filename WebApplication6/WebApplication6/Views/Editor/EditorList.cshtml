@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DAL.Editor>
+
+@{
+    ViewBag.Title = "EditorList";
+}
+
+<h2>EditorList</h2>
+
+<p>
+    <a href="/Editor/Add" class="btn btn-info">Add</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayName("Image")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                <img style="height:100px" src="data:image/jpg;base64,@Convert.ToBase64String(item.Image1.Data)" />
+                <img style="height:100px" src="~/Content/@item.Image1.Name" />
+            </td>
+
+            <td>
+                <a href="/Editor/Delete/@item.Id" class="btn btn-danger" new { onclick="return confirmDelete()" }>Delete</a>
+                <a href="/Editor/Update/@item.Id" class="btn btn-info">Edit</a>
+
+            </td>
+        </tr>
+    }
+
+</table>

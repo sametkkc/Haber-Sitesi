@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProjeHaberDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FileUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="Editor" Relationship="ProjeHaberDbModel.FK_Editor_Image" FromRole="Image" ToRole="Editor" />
+    <NavigationProperty Name="HaberTbl" Relationship="ProjeHaberDbModel.FK_HaberTbl_Image" FromRole="Image" ToRole="HaberTbl" />
+  </EntityType>
+  <EntityContainer Name="ProjeHaberDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Image" EntityType="Self.Image" />
+    <EntitySet Name="Editor" EntityType="ProjeHaberDbModel.Editor" />
+    <AssociationSet Name="FK_Editor_Image" Association="ProjeHaberDbModel.FK_Editor_Image">
+      <End Role="Image" EntitySet="Image" />
+      <End Role="Editor" EntitySet="Editor" />
+    </AssociationSet>
+    <EntitySet Name="Category" EntityType="ProjeHaberDbModel.Category" />
+    <EntitySet Name="HaberTbl" EntityType="ProjeHaberDbModel.HaberTbl" />
+    <AssociationSet Name="FK_HaberTbl_Category" Association="ProjeHaberDbModel.FK_HaberTbl_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="HaberTbl" EntitySet="HaberTbl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HaberTbl_Editor" Association="ProjeHaberDbModel.FK_HaberTbl_Editor">
+      <End Role="Editor" EntitySet="Editor" />
+      <End Role="HaberTbl" EntitySet="HaberTbl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HaberTbl_Image" Association="ProjeHaberDbModel.FK_HaberTbl_Image">
+      <End Role="Image" EntitySet="Image" />
+      <End Role="HaberTbl" EntitySet="HaberTbl" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Editor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ImageId" Type="Int32" />
+    <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Image1" Relationship="ProjeHaberDbModel.FK_Editor_Image" FromRole="Editor" ToRole="Image" />
+    <NavigationProperty Name="HaberTbl" Relationship="ProjeHaberDbModel.FK_HaberTbl_Editor" FromRole="Editor" ToRole="HaberTbl" />
+  </EntityType>
+  <Association Name="FK_Editor_Image">
+    <End Type="ProjeHaberDbModel.Image" Role="Image" Multiplicity="0..1" />
+    <End Type="ProjeHaberDbModel.Editor" Role="Editor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Image">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Editor">
+        <PropertyRef Name="ImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="HaberTbl" Relationship="ProjeHaberDbModel.FK_HaberTbl_Category" FromRole="Category" ToRole="HaberTbl" />
+  </EntityType>
+  <EntityType Name="HaberTbl">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="spot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="EditorId" Type="Int32" />
+    <Property Name="ImageId" Type="Int32" />
+    <Property Name="ReadCount" Type="Int32" />
+    <Property Name="CatId" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="ProjeHaberDbModel.FK_HaberTbl_Category" FromRole="HaberTbl" ToRole="Category" />
+    <NavigationProperty Name="Editor" Relationship="ProjeHaberDbModel.FK_HaberTbl_Editor" FromRole="HaberTbl" ToRole="Editor" />
+    <NavigationProperty Name="Image" Relationship="ProjeHaberDbModel.FK_HaberTbl_Image" FromRole="HaberTbl" ToRole="Image" />
+  </EntityType>
+  <Association Name="FK_HaberTbl_Category">
+    <End Type="ProjeHaberDbModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="ProjeHaberDbModel.HaberTbl" Role="HaberTbl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HaberTbl">
+        <PropertyRef Name="CatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HaberTbl_Editor">
+    <End Type="ProjeHaberDbModel.Editor" Role="Editor" Multiplicity="0..1" />
+    <End Type="ProjeHaberDbModel.HaberTbl" Role="HaberTbl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Editor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HaberTbl">
+        <PropertyRef Name="EditorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HaberTbl_Image">
+    <End Type="ProjeHaberDbModel.Image" Role="Image" Multiplicity="0..1" />
+    <End Type="ProjeHaberDbModel.HaberTbl" Role="HaberTbl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Image">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HaberTbl">
+        <PropertyRef Name="ImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
